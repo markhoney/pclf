@@ -20,4 +20,15 @@ A ragtag group of brave guerilla soldiers, wearing red berets, wearing blue tint
 
 The view outside of a cake shop. In the background, through the cake shop window, many yummy cakes can be seen. In the foreground, an evil looking filipino woman is standing with ninjas, protecting the cake shop.
 
-A horizontal tesslating background for a 2d video game, showing the back wall of a cake shop, with ovens, glass pisplay cases, tables and chairs.
+The back wall of a cake shop, with ovens, glass pisplay cases, tables and chairs, as a horizontal tesslating repeating background with seamless stitching for a 2d video game.
+
+A set of cake sprites of different cakes on a white background for a 2d game
+
+A set of 2d sprites of different furniture, like tables, chairs, ovens and tills, for a bakery on a white background for a 2d game
+
+
+
+
+
+
+cinematic still shot of      + photorealistic + photorealism + ray tracing + unreal engine 5 + ultra detailed, 8k, hdr, hr --v 4
