@@ -1,0 +1,52 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "PCLF.tmx",
+    "expandedProjectPaths": [
+        "."
+    ],
+    "fileStates": {
+        "": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Furniture.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "PCLF.tmx": {
+            "scale": 1.5,
+            "selectedLayer": 4,
+            "viewCenter": {
+                "x": 1644,
+                "y": 175.99999999999997
+            }
+        },
+        "PCLF.tmx#Furniture": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        }
+    },
+    "last.exportedFilePath": "D:/Code/Friends/pclf",
+    "last.imagePath": "D:/Code/Friends/pclf/assets/images/furniture",
+    "map.height": 6,
+    "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",
+    "map.lastUsedFormat": "tmx",
+    "map.layerDataFormat": null,
+    "map.renderOrder": null,
+    "map.width": 96,
+    "openFiles": [
+        "PCLF.tmx",
+        "Furniture.tsx"
+    ],
+    "project": "PCLF.tiled-project",
+    "recentFiles": [
+        "Furniture.tsx",
+        "PCLF.tmx"
+    ],
+    "tileset.embedInMap": true,
+    "tileset.type": 1
+}
