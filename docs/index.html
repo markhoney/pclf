@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>PCLF Game</title>
+		<script type="module">
+			const speed = 500;
+			// import kaboom from "https://unpkg.com/kaboom/dist/kaboom.mjs";
+			import kaboom from "kaboom";
+			kaboom({
+				// canvas: document.getElementById('game'),
+				background: [49, 78, 122]
+			});
+			function patrol(speed = 250, dir = 1) {
+				return {
+					id: "patrol",
+					require: ["pos", "area"],
+					add() {
+						this.on("collide", (obj, col) => {
+							if (col.isLeft() || col.isRight()) {
+								dir = -dir
+							}
+						})
+					},
+					update() {
+						this.move(speed * dir, 0)
+					},
+				}
+			}
+			loadSound('music', 'music/song.mp3');
+			scene('game', ({score, lives} = {score: 0, lives: 3}) => {
+				gravity(1200);
+				const floor = 100;
+				const spacing = 400;
+				add([
+					'floor',
+					rect(width(), floor),
+					pos(0, height() - floor),
+					area(),
+					solid(),
+					color(255, 255, 255),
+				]);
+				loadSprite('commando', 'sprites/commando.gif');
+				const commando = add([sprite('commando'), pos(20, height() - 300), scale(4), area(), body(), health(3)]);
+				onKeyPress('space', () => commando.isGrounded() && commando.jump());
+				onKeyDown('up', () => commando.isGrounded() && commando.jump());
+				onKeyDown('w', () => commando.isGrounded() && commando.jump());
+				onKeyDown('right', () => commando.move(speed, 0));
+				onKeyDown('left', () => commando.move(-speed, 0));
+				onKeyDown('d', () => commando.move(speed, 0));
+				onKeyDown('a', () => commando.move(-speed, 0));
+				loadSprite('table', 'sprites/table.png');
+				for (let i = 1; i <= 8; i++) {
+					loadSprite('cake' + i, 'sprites/cake_' + i + '.png');
+					add('table', [sprite('table'), pos(spacing * i, height() - floor + 200), scale(4), area(), solid()]);
+					// add('cake', [sprite('cake' + i), pos(spacing * i, height() - (floor + 100)), area()]);
+				}
+				// commando.onCollide("cake", (cake) => destroy(cake));
+			});
+
+			go('game');
+		</script>
+	</head>
+	<body>
+		<div id="game"></div>
+	</body>
+</html>
