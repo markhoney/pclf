@@ -1,5 +1,5 @@
 {
   "dependencies": {
-    "melonjs": "^14.4.0"
+    "kaboom": "^2000.2.10"
   }
 }
