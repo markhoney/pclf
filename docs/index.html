@@ -5,51 +5,146 @@
 		<title>PCLF Game</title>
 		<script type="module">
 			const speed = 500;
+			const vars = {
+				speed: {
+					player: 500,
+					enemies: 250,
+				},
+				gravity: 1200,
+				floor: 100,
+				spacing: 400,
+			};
 			import kaboom from "https://unpkg.com/kaboom/dist/kaboom.mjs";
 			// import kaboom from "kaboom";
 			// import kaboom from "../node_modules/kaboom/dist/kaboom.mjs";
 			kaboom({
 				// canvas: document.getElementById('game'),
-				background: [49, 78, 122]
+				background: [49, 78, 122],
 			});
-			function patrol(speed = 250, dir = 1) {
+			function patrol(speed = vars.speed.enemies, dir = 1) {
 				return {
-					id: "patrol",
-					require: ["pos", "area"],
-					add() {this.on("collide", (obj, col) => {if (col.isLeft() || col.isRight()) dir = -dir})},
+					id: 'patrol',
+					require: ['pos', 'area'],
+					add() {this.on('collide', (obj, col) => {if (col.isLeft() || col.isRight()) dir = -dir})},
 					update() {this.move(speed * dir, 0)},
-				}
+				};
 			}
-			loadSprite('commando', 'sprites/commando.gif');
-			loadSound('music', 'music/song.mp3');
+			function addButton(text, p, f) {
+				const btn = add([
+					text(text),
+					pos(p),
+					area({ cursor: 'pointer'}),
+					scale(1),
+					origin('center'),
+					layer('ui'),
+				])
+				btn.onClick(f);
+				btn.onUpdate(() => {
+					if (btn.isHovering()) {
+						const t = time() * 10
+						btn.color = rgb(
+							wave(0, 255, t),
+							wave(0, 255, t + 2),
+							wave(0, 255, t + 4),
+						)
+						btn.scale = vec2(1.2)
+					} else {
+						btn.scale = vec2(1)
+						btn.color = rgb()
+					}
+				})
+			}
+			loadSprite('player', 'sprites/commando.gif');
+			loadSprite('table', 'sprites/table.png');
+			loadSound('music', 'music/background.mp3');
+			loadSound('vocals', 'music/vocals.mp3');
 			for (let i = 1; i <= 8; i++) loadSprite('cake' + i, 'sprites/cake_' + i + '.png');
+			layers(['game', 'ui'], 'game');
 			scene('game', ({score, lives} = {score: 0, lives: 3}) => {
-				gravity(1200);
-				const floor = 100;
-				const spacing = 400;
+				const music = play('music', {loop: true});
+				gravity(vars.gravity);
 				add([
 					'floor',
-					rect(width(), floor),
-					pos(0, height() - floor),
+					rect(width(), vars.floor),
+					pos(0, height() - vars.floor),
 					area(),
 					solid(),
 					color(255, 255, 255),
+					layer('game'),
 				]);
-				const commando = add([sprite('commando'), pos(20, height() - 300), scale(4), area(), body(), health(3)]);
-				onKeyPress('space', () => commando.isGrounded() && commando.jump());
-				onKeyDown('up', () => commando.isGrounded() && commando.jump());
-				onKeyDown('w', () => commando.isGrounded() && commando.jump());
-				onKeyDown('right', () => commando.move(speed, 0));
-				onKeyDown('left', () => commando.move(-speed, 0));
-				onKeyDown('d', () => commando.move(speed, 0));
-				onKeyDown('a', () => commando.move(-speed, 0));
+				const player = add([
+					sprite('player'),
+					pos(20, height() - 300),
+					scale(4),
+					area(),
+					body(),
+					health(3),
+					layer('game'),
+				]);
+				onKeyPress('space', () => player.isGrounded() && player.jump());
+				onKeyDown('up', () => player.isGrounded() && player.jump());
+				onKeyDown('w', () => player.isGrounded() && player.jump());
+				onKeyDown('right', () => player.move(vars.speed.player, 0));
+				onKeyDown('left', () => player.move(-vars.speed.player, 0));
+				onKeyDown('d', () => player.move(vars.speed.player, 0));
+				onKeyDown('a', () => player.move(-vars.speed.player, 0));
+				onKeyPress('f', () => fullscreen(!fullscreen()));
+				onKeyPress('m', () => music.isPaused() ? music.play() : music.pause());
+				onKeyPress('+', () => music.volume(music.volume() + 0.1));
+				onKeyPress('-', () => music.volume(music.volume() - 0.1));
+				onKeyPress('escape', () => go('menu'));
 				loadSprite('table', 'sprites/table.png');
 				for (let i = 1; i <= 8; i++) {
-					// loadSprite('cake' + i, 'sprites/cake_' + i + '.png');
-					add('table', [sprite('table'), pos(spacing * i, height() - (floor + 100)), scale(4), area(), solid()]);
-					// add('cake', [sprite('cake' + i), pos(spacing * i, height() - (floor + 100)), area()]);
+					add([
+						'table',
+						sprite('table'),
+						pos(vars.spacing * i, height() - (vars.floor + 50)),
+						scale(4),
+						area(),
+						solid(),
+						layer('game'),
+					]);
+					add([
+						'cake',
+						sprite('cake' + i),
+						pos((vars.spacing * i) + 32, height() - (vars.floor + 150)),
+						area(),
+						layer('game'),
+					]);
 				}
-				commando.onCollide("cake", (cake) => destroy(cake));
+				player.onUpdate(() => camPos(player.pos));
+				player.onCollide('cake', (cake) => {
+					destroy(cake);
+					score++;
+					if (score >= 8) go('win', {score, lives});
+				});
+				/* player.onCollide('ninja', (ninja) => {
+					lives--;
+				}); */
+			});
+			scene('menu', () => {
+				add([
+					text(`The People's Cake Liberation Front`),
+					pos(width() / 2, height() / 2),
+					origin('center'),
+					scale(2),
+					layer('ui'),
+				]);
+				addButton('Play', vec2(width() / 2, height() / 2 + 100), () => go('game'));
+				// addButton('Quit', vec2(width() / 2, height() / 2 + 200), () => go('quit'));
+			});
+			scene('lose', () => {
+				add([
+					text('Oh no! The Anti Cake Liberation Reactionaries have killed our hero!'),
+				]);
+				onKeyPress(() => go('game'));
+			});
+
+			scene('win', () => {
+				add([
+					text(`Victory! The glorious People's Cake Liberation Front has won the day!`),
+				]);
+				onKeyPress(() => go('game'));
 			});
 			go('game');
 		</script>
