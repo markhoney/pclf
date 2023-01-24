@@ -130,6 +130,12 @@
 					scale(2),
 					layer('ui'),
 				]);
+				add([
+					text(`Liberate all the cakes and avoid being caught by ninjas`),
+					pos(width() / 2, height() / 2),
+					origin('center'),
+					layer('ui'),
+				]);
 				addButton('Play', vec2(width() / 2, height() / 2 + 100), () => go('game'));
 				// addButton('Quit', vec2(width() / 2, height() / 2 + 200), () => go('quit'));
 			});
