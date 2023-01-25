@@ -55,7 +55,15 @@
 					}
 				})
 			}
-			loadSprite('player', 'sprites/commando.gif');
+			loadSprite('player', 'sprites/commando.png', {
+				sliceX: 3,
+				sliceY: 2,
+				anims: {
+					idle: 0,
+					run: {from: 0, to: 3},
+					jump: 3,
+				},
+			});
 			loadSprite('table', 'sprites/table.png');
 			loadSound('music', 'music/background.mp3');
 			loadSound('vocals', 'music/vocals.mp3');
@@ -74,7 +82,7 @@
 					layer('game'),
 				]);
 				const player = add([
-					sprite('player'),
+					sprite('player', {anim: 'idle'}),
 					pos(20, height() - 300),
 					scale(4),
 					area(),
@@ -82,13 +90,29 @@
 					health(3),
 					layer('game'),
 				]);
-				onKeyPress('space', () => player.isGrounded() && player.jump());
-				onKeyDown('up', () => player.isGrounded() && player.jump());
-				onKeyDown('w', () => player.isGrounded() && player.jump());
-				onKeyDown('right', () => player.move(vars.speed.player, 0));
-				onKeyDown('left', () => player.move(-vars.speed.player, 0));
-				onKeyDown('d', () => player.move(vars.speed.player, 0));
-				onKeyDown('a', () => player.move(-vars.speed.player, 0));
+				function jump() {
+					if (player.isGrounded()) {
+						player.jump();
+						player.play('jump');
+					}
+				}
+				function left() {
+					player.move(-vars.speed.player, 0);
+					player.flipX(true);
+					if (player.isGrounded() && player.curAnim() !== "run") player.play("run");
+				}
+				function right() {
+					player.move(vars.speed.player, 0);
+					player.flipX(false);
+					if (player.isGrounded() && player.curAnim() !== "run") player.play("run");
+				}
+				onKeyPress('space', () => jump());
+				onKeyDown('up', () => jump());
+				onKeyDown('w', () => jump());
+				onKeyDown('left', () => left());
+				onKeyDown('right', () => right());
+				onKeyDown('a', () => left);
+				onKeyDown('d', () => right());
 				onKeyPress('f', () => fullscreen(!fullscreen()));
 				onKeyPress('m', () => music.isPaused() ? music.play() : music.pause());
 				onKeyPress('+', () => music.volume(music.volume() + 0.1));
@@ -125,6 +149,13 @@
 				player.on('death', () => {
 					destroy(player);
 					go('lose');
+				});
+				player.onGround(() => {
+					if (!isKeyDown("left") && !isKeyDown("right")) {
+						player.play("idle");
+					} else {
+						player.play("run");
+					}
 				});
 			});
 			scene('menu', () => {
