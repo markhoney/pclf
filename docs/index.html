@@ -5,8 +5,9 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="description" content="[Your optional description]" />
 		<title>The Glorious Victory of the PCLF</title>
-		<link href="/propaganda.css" rel="stylesheet" />
+		<link id="theme" href="/propaganda.css" rel="stylesheet" type="text/css" />
 		<link href="/style.css" rel="stylesheet" />
+		<script defer src="/themes.js"></script>
 	</head>
 	<body>
 		<a href="#main" class="skip-link">Skip to main content</a>
@@ -32,7 +33,18 @@
 			</div>
 		</main>
 		<footer class="page-footer">
-			<p>Copyright &copy; 2023 People's Cake Liberation Front. Viva la Revolution!</p>
+			<div class="container">
+				<div>
+					<h3>Change Theme</h3>
+					<ul>
+						<li><a onclick="setTheme('propaganda')">Propaganda</a></li>
+						<li><a onclick="setTheme('russian-inspiration')">Russian</a></li>
+						<li><a onclick="setTheme('geocities')">Geocities</a></li>
+						<li><a onclick="setTheme('comic')">Comic</a></li>
+					</ul>
+				</div>
+				<p>Copyright &copy; 2023 People's Cake Liberation Front. Viva la Revolution!</p>
+			</div>
 		</footer>
 	</body>
 </html>
