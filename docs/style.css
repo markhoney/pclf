@@ -1,0 +1,11 @@
+header h1 span {
+	font-size: 0.9em;
+}
+
+header h2 span {
+	font-size: 2em;
+}
+
+main {
+	min-height: 60vh;
+}
