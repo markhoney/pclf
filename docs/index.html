@@ -12,7 +12,8 @@
 				},
 				gravity: 1200,
 				floor: 100,
-				spacing: 400,
+				spacing: 2000,
+				cakes: 8,
 			};
 			import kaboom from "https://unpkg.com/kaboom/dist/kaboom.mjs";
 			// import kaboom from "kaboom";
@@ -65,7 +66,7 @@
 				gravity(vars.gravity);
 				add([
 					'floor',
-					rect(width(), vars.floor),
+					rect(vars.spacing * (vars.cakes + 2), vars.floor),
 					pos(0, height() - vars.floor),
 					area(),
 					solid(),
@@ -119,8 +120,12 @@
 					if (score >= 8) go('win', {score, lives});
 				});
 				/* player.onCollide('ninja', (ninja) => {
-					lives--;
+					player.hurt(1);
 				}); */
+				player.on('death', () => {
+					destroy(player);
+					go('lose');
+				});
 			});
 			scene('menu', () => {
 				add([
