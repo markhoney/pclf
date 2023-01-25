@@ -26,8 +26,18 @@
 				return {
 					id: 'patrol',
 					require: ['pos', 'area'],
-					add() {this.on('collide', (obj, col) => {if (col.isLeft() || col.isRight()) dir = -dir})},
-					update() {this.move(speed * dir, 0)},
+					add() {
+						this.on('collide', (obj, col) => {
+							if (col.isLeft() || col.isRight()) {
+								dir = -dir;
+								if (col.isLeft()) this.flipX(false);
+								else this.flipX(true);
+							}
+						})
+					},
+					update() {
+						this.move(speed * dir, 0);
+					},
 				};
 			}
 			function addButton(text, p, f) {
@@ -64,6 +74,13 @@
 					jump: 3,
 				},
 			});
+			loadSprite('ninja', 'sprites/ninja.png', {
+				sliceX: 2,
+				sliceY: 1,
+				anims: {
+					run: {from: 0, to: 1},
+				},
+			});
 			loadSprite('table', 'sprites/table.png');
 			loadSound('music', 'music/background.mp3');
 			loadSound('vocals', 'music/vocals.mp3');
@@ -74,7 +91,7 @@
 				gravity(vars.gravity);
 				add([
 					'floor',
-					rect(vars.spacing * (vars.cakes + 2), vars.floor),
+					rect(vars.spacing * (vars.cakes + 2), vars.floor + 500),
 					pos(0, height() - vars.floor),
 					area(),
 					solid(),
@@ -99,12 +116,12 @@
 				function left() {
 					player.move(-vars.speed.player, 0);
 					player.flipX(true);
-					if (player.isGrounded() && player.curAnim() !== "run") player.play("run");
+					if (player.isGrounded() && player.curAnim() !== 'run') player.play('run');
 				}
 				function right() {
 					player.move(vars.speed.player, 0);
 					player.flipX(false);
-					if (player.isGrounded() && player.curAnim() !== "run") player.play("run");
+					if (player.isGrounded() && player.curAnim() !== 'run') player.play('run');
 				}
 				onKeyPress('space', () => jump());
 				onKeyDown('up', () => jump());
@@ -136,6 +153,16 @@
 						area(),
 						layer('game'),
 					]);
+					add([
+						'ninja',
+						sprite('ninja', {anim: 'run'}),
+						pos((vars.spacing * i) + 32, height() - (vars.floor + 150)),
+						scale(4),
+						area(),
+						body(),
+						patrol(),
+						layer('game'),
+					]);
 				}
 				player.onUpdate(() => camPos(player.pos));
 				player.onCollide('cake', (cake) => {
@@ -151,10 +178,10 @@
 					go('lose');
 				});
 				player.onGround(() => {
-					if (!isKeyDown("left") && !isKeyDown("right")) {
-						player.play("idle");
+					if (!isKeyDown('left') && !isKeyDown('right')) {
+						player.play('idle');
 					} else {
-						player.play("run");
+						player.play('run');
 					}
 				});
 			});
@@ -181,7 +208,6 @@
 				]);
 				onKeyPress(() => go('game'));
 			});
-
 			scene('win', () => {
 				add([
 					text(`Victory! The glorious People's Cake Liberation Front has won the day!`),
