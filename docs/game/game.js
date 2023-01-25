@@ -65,17 +65,17 @@ function addButton(text, p, f) {
 	})
 }
 
-loadSprite('goal', '/sprites/cake.png');
-loadSprite('table', '/sprites/table.png');
-loadSprite('heart', '/sprites/heart.png');
-loadSprite('ninja', '/sprites/ninja.png', {
+loadSprite('goal', 'sprites/cake.png');
+loadSprite('table', 'sprites/table.png');
+loadSprite('heart', 'sprites/heart.png');
+loadSprite('ninja', 'sprites/ninja.png', {
 	sliceX: 2,
 	sliceY: 1,
 	anims: {
 		run: {from: 0, to: 1},
 	},
 });
-loadSprite('player', '/sprites/commando.png', {
+loadSprite('player', 'sprites/commando.png', {
 	sliceX: 3,
 	sliceY: 2,
 	anims: {
@@ -85,7 +85,7 @@ loadSprite('player', '/sprites/commando.png', {
 	},
 });
 
-for (let i = 1; i <= 8; i++) loadSprite('cake' + i, '/sprites/cake_' + i + '.png');
+for (let i = 1; i <= 8; i++) loadSprite('cake' + i, 'sprites/cake_' + i + '.png');
 
 loadSound('music', '/anthem/background.mp3');
 loadSound('vocals', '/anthem/vocals.mp3');
