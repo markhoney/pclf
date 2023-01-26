@@ -17,6 +17,8 @@ kaboom({
 	canvas: document.getElementById('game'),
 	// width: 1280,
 	// height: 800,
+	width: Math.floor(document.documentElement.clientWidth * 0.8),
+	height: document.documentElement.clientHeight,
 	background: [49, 78, 122],
 });
 
@@ -185,7 +187,7 @@ scene('game', ({score, lives} = {score: 0, lives: 3}) => {
 		layer('game'),
 	]);
 
-	player.onUpdate(() => camPos(player.pos));
+	player.onUpdate(() => camPos(player.pos.x, camPos().y));
 	player.onCollide('cake', (cake) => {
 		destroy(cake);
 		score++;
