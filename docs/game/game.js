@@ -7,6 +7,7 @@ const vars = {
 		player: 500,
 		enemies: 250,
 	},
+	lives: 3,
 	gravity: 1200,
 	floor: 100,
 	spacing: 2000,
@@ -41,9 +42,9 @@ function patrol(speed = vars.speed.enemies, dir = 1) {
 	};
 }
 
-function addButton(text, p, f) {
+function addButton(buttonText, p, f) {
 	const btn = add([
-		text(text),
+		text(buttonText),
 		pos(p),
 		area({ cursor: 'pointer'}),
 		scale(1),
@@ -87,12 +88,12 @@ loadSprite('player', 'sprites/commando.png', {
 	},
 });
 
-for (let i = 1; i <= 8; i++) loadSprite('cake' + i, 'sprites/cake_' + i + '.png');
+for (let i = 1; i <= vars.cakes; i++) loadSprite('cake' + i, 'sprites/cake_' + i + '.png');
 
 loadSound('music', 'music/background.mp3');
 loadSound('vocals', 'music/vocals.mp3');
 
-layers(['game', 'ui'], 'game');
+layers(['bg', 'game', 'ui'], 'game');
 
 scene('game', ({score, lives} = {score: 0, lives: 3}) => {
 	const music = play('music', {loop: true});
@@ -137,7 +138,6 @@ scene('game', ({score, lives} = {score: 0, lives: 3}) => {
 		area(),
 		solid(),
 		color(255, 255, 255),
-		layer('game'),
 	]);
 
 	add([
@@ -145,10 +145,22 @@ scene('game', ({score, lives} = {score: 0, lives: 3}) => {
 		sprite('goal'),
 		scale(4),
 		pos((vars.spacing * 8) - 800, height() - (vars.floor + 1024)),
-		layer('game'),
+		layer('bg'),
 	]);
 
-	for (let i = 1; i <= 8; i++) {
+	for (let i = 1; i <= vars.lives; i++) {
+		add([
+			'heart_' + i,
+			sprite('heart'),
+			pos(50 * i, 10),
+			scale(0.3),
+			// area(),
+			// solid(),
+			fixed(),
+			layer('ui'),
+		]);
+	}
+	for (let i = 1; i <= vars.cakes; i++) {
 		add([
 			'table',
 			sprite('table'),
@@ -156,14 +168,12 @@ scene('game', ({score, lives} = {score: 0, lives: 3}) => {
 			scale(4),
 			area(),
 			solid(),
-			layer('game'),
 		]);
 		add([
 			'cake',
 			sprite('cake' + i),
 			pos((vars.spacing * i) + 32, height() - (vars.floor + 150)),
 			area(),
-			layer('game'),
 		]);
 		add([
 			'ninja',
@@ -173,7 +183,6 @@ scene('game', ({score, lives} = {score: 0, lives: 3}) => {
 			area(),
 			body(),
 			patrol(),
-			layer('game'),
 		]);
 	}
 
@@ -183,18 +192,18 @@ scene('game', ({score, lives} = {score: 0, lives: 3}) => {
 		scale(4),
 		area(),
 		body(),
-		health(3),
-		layer('game'),
+		health(vars.lives),
 	]);
 
 	player.onUpdate(() => camPos(player.pos.x, camPos().y));
 	player.onCollide('cake', (cake) => {
 		destroy(cake);
 		score++;
-		if (score >= 8) go('win', {score, lives});
+		if (score >= vars.cakes) go('win', {score, lives});
 	});
-	player.onCollide('ninja', (ninja) => {
+	player.onCollide('ninja', () => {
 		player.hurt(1);
+		get('heart_' + player.health()).destroy();
 	});
 	player.on('death', () => {
 		destroy(player);
@@ -211,34 +220,36 @@ scene('game', ({score, lives} = {score: 0, lives: 3}) => {
 
 scene('menu', () => {
 	add([
-		text(`The People's Cake Liberation Front`),
-		pos(width() / 2, height() / 2),
+		text(`The\nPeople's Cake\nLiberation Front`),
+		pos(width() / 2, height() / 2 - 100),
 		origin('center'),
-		scale(2),
-		layer('ui'),
+		// scale(2),
 	]);
-	add([
+	/* add([
 		text(`Liberate all the cakes and avoid being caught by ninjas`),
 		pos(width() / 2, height() / 2),
 		origin('center'),
-		layer('ui'),
-	]);
+	]); */
 	addButton('Play', vec2(width() / 2, height() / 2 + 100), () => go('game'));
 	// addButton('Quit', vec2(width() / 2, height() / 2 + 200), () => go('quit'));
 });
 
 scene('lose', () => {
 	add([
-		text('Oh no! The Anti Cake Liberation Reactionaries have killed our hero!'),
+		text('Oh no!\nThe Anti Cake\nLiberation Reactionaries\nhave killed our hero!'),
+		pos(width() / 2, height() / 2),
+		origin('center'),
 	]);
 	onKeyPress(() => go('game'));
 });
 
 scene('win', () => {
 	add([
-		text(`Victory! The glorious People's Cake Liberation Front has won the day!`),
+		text(`Victory!\nThe glorious\nPeople's Cake Liberation Front\nhas won the day!`),
+		pos(width() / 2, height() / 2),
+		origin('center'),
 	]);
 	onKeyPress(() => go('game'));
 });
 
-go('game');
+go('menu');
