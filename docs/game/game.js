@@ -87,8 +87,8 @@ loadSprite('player', 'sprites/commando.png', {
 
 for (let i = 1; i <= 8; i++) loadSprite('cake' + i, 'sprites/cake_' + i + '.png');
 
-loadSound('music', '/anthem/background.mp3');
-loadSound('vocals', '/anthem/vocals.mp3');
+loadSound('music', 'music/background.mp3');
+loadSound('vocals', 'music/vocals.mp3');
 
 layers(['game', 'ui'], 'game');
 
