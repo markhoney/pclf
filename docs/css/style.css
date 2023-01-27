@@ -9,3 +9,7 @@ header h2 span {
 main {
 	min-height: 60vh;
 }
+
+main img {
+	max-width: 95%;
+}
