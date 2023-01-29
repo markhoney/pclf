@@ -19,7 +19,7 @@ kaboom({
 	// width: 1280,
 	// height: 800,
 	width: Math.floor(document.documentElement.clientWidth * 0.8),
-	height: document.documentElement.clientHeight,
+	height: Math.floor(document.documentElement.clientHeight * 0.9),
 	background: [49, 78, 122],
 });
 
@@ -107,6 +107,7 @@ scene('game', ({score, lives} = {score: 0, lives: 3}) => {
 	}
 
 	function left() {
+		// if (toScreen(player.pos).x > 20)
 		player.move(-vars.speed.player, 0);
 		player.flipX(true);
 		if (player.isGrounded() && player.curAnim() !== 'run') player.play('run');
@@ -133,8 +134,9 @@ scene('game', ({score, lives} = {score: 0, lives: 3}) => {
 
 	add([
 		'floor',
-		rect(vars.spacing * (vars.cakes + 2), vars.floor + 500),
-		pos(-1000, height() - vars.floor),
+		origin('botleft'),
+		rect(vars.spacing * (vars.cakes + 2), vars.floor),
+		pos(-width(), height()),
 		area(),
 		solid(),
 		color(255, 255, 255),
@@ -195,18 +197,31 @@ scene('game', ({score, lives} = {score: 0, lives: 3}) => {
 		health(vars.lives),
 	]);
 
-	player.onUpdate(() => camPos(player.pos.x, camPos().y));
+	player.onUpdate(() => {
+		camPos(player.pos.x, camPos().y);
+		if (player.pos.y > height()){
+			// killed();
+			player.hurt(1);
+		}
+	});
 	player.onCollide('cake', (cake) => {
 		destroy(cake);
 		score++;
 		if (score >= vars.cakes) go('win', {score, lives});
 	});
 	player.onCollide('ninja', () => {
+		every('heart_' + player.hp(), destroy);
 		player.hurt(1);
-		get('heart_' + player.health()).destroy();
+		// destroy(get('heart_' + player.hp()));
+		// destroy('heart_' + player.hp());
 	});
+	player.on("hurt", () => {
+		player.flipX(false);
+		player.moveTo(20, height() - 300);
+	})
 	player.on('death', () => {
 		destroy(player);
+		// player.freeze();
 		go('lose');
 	});
 	player.onGround(() => {
