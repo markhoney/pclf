@@ -28,13 +28,13 @@ function patrol(speed = vars.speed.enemies, dir = 1) {
 		id: 'patrol',
 		require: ['pos', 'area'],
 		add() {
-			this.on('collide', (obj, col) => {
+			this.onCollide('table', (obj, col) => {
 				if (col.isLeft() || col.isRight()) {
 					dir = -dir;
 					if (col.isLeft()) this.flipX(false);
 					else this.flipX(true);
 				}
-			})
+			});
 		},
 		update() {
 			this.move(speed * dir, 0);
@@ -75,6 +75,7 @@ loadSprite('ninja', 'sprites/ninja.png', {
 	sliceX: 2,
 	sliceY: 1,
 	anims: {
+		idle: 0,
 		run: {from: 0, to: 1},
 	},
 });
@@ -177,7 +178,7 @@ scene('game', ({score, lives} = {score: 0, lives: 3}) => {
 			pos((vars.spacing * i) + 32, height() - (vars.floor + 150)),
 			area(),
 		]);
-		add([
+		const ninja = add([
 			'ninja',
 			sprite('ninja', {anim: 'run'}),
 			pos((vars.spacing * i) + 32, height() - (vars.floor + 150)),
@@ -186,9 +187,17 @@ scene('game', ({score, lives} = {score: 0, lives: 3}) => {
 			body(),
 			patrol(),
 		]);
+		ninja.onGround(function() {
+		// ninja.onUpdate(function() {
+			// this.play('run');
+			every('ninja', (n) => {
+				n.play('run');
+			});
+		});
 	}
 
 	const player = add([
+		'player',
 		sprite('player', {anim: 'idle'}),
 		pos(20, height() - 300),
 		scale(4),
@@ -199,10 +208,7 @@ scene('game', ({score, lives} = {score: 0, lives: 3}) => {
 
 	player.onUpdate(() => {
 		camPos(player.pos.x, camPos().y);
-		if (player.pos.y > height()){
-			// killed();
-			player.hurt(1);
-		}
+		if (player.pos.y > height()) player.hurt(1);
 	});
 	player.onCollide('cake', (cake) => {
 		destroy(cake);
@@ -210,12 +216,12 @@ scene('game', ({score, lives} = {score: 0, lives: 3}) => {
 		if (score >= vars.cakes) go('win', {score, lives});
 	});
 	player.onCollide('ninja', () => {
-		every('heart_' + player.hp(), destroy);
 		player.hurt(1);
-		// destroy(get('heart_' + player.hp()));
-		// destroy('heart_' + player.hp());
 	});
 	player.on("hurt", () => {
+		// destroy(get('heart_' + (player.hp() + 1)));
+		// destroy('heart_' + (player.hp() + 1));
+		every('heart_' + (player.hp() + 1), destroy);
 		player.flipX(false);
 		player.moveTo(20, height() - 300);
 	})
