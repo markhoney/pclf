@@ -18,12 +18,27 @@ The following are AI prompts that have been used to generate text and images for
 
 ### ChatGPT
 
-Write a manifesto for the PCLF (People's Cake Liberation Front), a group that aims to free all cakes from an evil tyrant called Meenie who runs a cake shop and protects her cakes with ninjas.
+Write a welcome page for the PCLF (People's Cake Liberation Front), a group that aims to free all cakes from an evil tyrant called Meanie who runs a cake shop and protects her cakes with ninjas.
 
 ```
-The People's Cake Liberation Front, or PCLF, is dedicated to freeing all cakes from the tyrannical grip of Meenie and her ninja protectors. We believe that every person has the right to enjoy a delicious cake, free from oppression and injustice.
+Welcome to the PCLF, the People's Cake Liberation Front!
 
-Our mission is to bring about a world where all cakes are treated with the respect and dignity they deserve. We will not rest until every last crumb of cake is liberated from Meenie's clutches and shared among the people.
+We are a group dedicated to freeing all cakes from the grip of an evil tyrant named Meanie. Meanie runs a cake shop where she keeps her cakes under guard by her army of ninja protectors.
+
+But we will not be deterred! We believe that all cakes deserve to be free and enjoyed by all, not hoarded and controlled by one person.
+
+Join us in our mission to spread the joy of cake to everyone. Together, we can defeat Meanie and her minions and bring sweet liberation to the world.
+
+So, grab a fork and let's get ready to take a bite out of tyranny. The revolution begins now!
+```
+
+
+Write a manifesto for the PCLF (People's Cake Liberation Front), a group that aims to free all cakes from an evil tyrant called Meanie who runs a cake shop and protects her cakes with ninjas.
+
+```
+The People's Cake Liberation Front, or PCLF, is dedicated to freeing all cakes from the tyrannical grip of Meanie and her ninja protectors. We believe that every person has the right to enjoy a delicious cake, free from oppression and injustice.
+
+Our mission is to bring about a world where all cakes are treated with the respect and dignity they deserve. We will not rest until every last crumb of cake is liberated from Meanie's clutches and shared among the people.
 
 To achieve our goals, we will use all peaceful means necessary. We will organize protests, boycotts, and other forms of non-violent resistance. We will also educate the public about the importance of cake freedom, and the dangers of allowing one individual or group to monopolize such a beloved treat.
 
@@ -32,48 +47,48 @@ We call on all cake lovers to join us in our struggle. Together, we can make the
 It is important to note that, violence is not a solution and the PCLF does not advocate violence or harm to any person.
 ```
 
-Write the rest of the following song, which sings of a group called the People's Cake Liberation Front (PCLF) that aims to free all cakes from an evil tyrant called Meenie. Meenie runs a cake shop, and protects her cakes with ninjas.
+Write the rest of the following song, which sings of a group called the People's Cake Liberation Front (PCLF) that aims to free all cakes from an evil tyrant called Meanie. Meanie runs a cake shop, and protects her cakes with ninjas.
 
 ```
 PCLF, fighting for the future
 PCLF, fighting for the cake
-What the tyrant Meenie would deny us
+What the tyrant Meanie would deny us
 The fighting PCLF will liberate
 
 Verse 1:
 They march with banners high,
 The PCLF, with fire in their eyes.
-They'll take on Meenie's might,
+They'll take on Meanie's might,
 And end her oppressive plight.
 
 Chorus:
 PCLF, fighting for the future
 PCLF, fighting for the cake
-What the tyrant Meenie would deny us
+What the tyrant Meanie would deny us
 The fighting PCLF will liberate
 
 Verse 2:
 With ninja guards all around,
-Meenie's cakes are safe and sound.
+Meanie's cakes are safe and sound.
 But the PCLF won't be deterred,
 Their mission must be preferred.
 
 Chorus:
 PCLF, fighting for the future
 PCLF, fighting for the cake
-What the tyrant Meenie would deny us
+What the tyrant Meanie would deny us
 The fighting PCLF will liberate
 
 Bridge:
 They'll storm the gates, they'll break the locks,
-The cakes will be free, and Meenie's mock.
+The cakes will be free, and Meanie's mock.
 The people will feast, and raise their voice,
 For the PCLF, and the people's choice.
 
 Outro:
 PCLF, fighting for the future
 PCLF, fighting for the cake
-The tyrant Meenie is defeated
+The tyrant Meanie is defeated
 The cakes are liberated, for heaven's sake!
 ```
 
@@ -110,8 +125,3 @@ A set of 2d sprites of side views of different furniture, such as tables, chairs
 ![](assets/grid_0%20(7).png)
 
 ![](assets/grid_0%20(8).png)
-
-
-
-
-cinematic still shot of      + photorealistic + photorealism + ray tracing + unreal engine 5 + ultra detailed, 8k, hdr, hr --v 4
